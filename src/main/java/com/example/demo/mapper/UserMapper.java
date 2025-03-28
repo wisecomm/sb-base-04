@@ -18,7 +18,7 @@ import java.util.Optional;
 @Repository
 public interface UserMapper {
 
-    Optional<UserMap> login(String userId);
+    Optional<UserMap> selectUser(String userId);
 
     List<UserMap> selectUserList(UserMap userDto);
 

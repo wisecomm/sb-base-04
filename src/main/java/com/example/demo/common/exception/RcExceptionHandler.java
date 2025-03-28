@@ -47,7 +47,7 @@ public class RcExceptionHandler {
     public ResponseEntity<GResponse> bindExceptionHandler(org.springframework.validation.BindException ex, HttpServletRequest request) {
         log.error("BindException : {}", ex);
         GError error = GError.INVALID_PARAM;
-        String message = String.format("invalid parameter : [%s]", ex.getFieldError().getField());
+        String message = String.format("invalid parameter : [%s]", ex.getMessage());  
         log.debug("message : {}", message);
         return new ResponseEntity<>(new GResponse(error.getStatus(), error.getCode(), message), error.getStatus());
     }

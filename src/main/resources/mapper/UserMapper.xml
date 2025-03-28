@@ -4,7 +4,7 @@
 <mapper namespace="com.example.demo.mapper.UserMapper">
 
     <!--로그인-->
-    <select id="login" resultType="userMap">
+    <select id="selectUser" resultType="userMap">
         SELECT t1.*
         FROM tb_user t1
         WHERE user_id = #{userId}
@@ -14,7 +14,7 @@
     <select id="selectUserList" resultType="userMap">
         SELECT t1.*
         FROM tb_user t1
-        WHERE t1.user_st = 'S'
+        WHERE 1=1
     </select>
 
 

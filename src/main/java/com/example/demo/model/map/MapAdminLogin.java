@@ -12,11 +12,6 @@ import lombok.Data;
 public class MapAdminLogin {
     private String accessToken;
     private String refreshToken;
-    private String corpCode;
-    private String userNm;
-    private Date loginTimeCurrent;
-    private Date loginTimeLast;
-    private String loginIp;
-    // 권한ID
-    private String roleid;
+
+    private UserMap userMap;
 }

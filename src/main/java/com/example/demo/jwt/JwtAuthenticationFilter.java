@@ -39,7 +39,6 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         String requestURI = request.getRequestURI();
         // [STEP1] 토큰이 필요하지 않는 API 호출 발생 혹은 토큰이 필요없는 HTTP Method OPTIONS 호출 시 : 아래 로직 처리 없이 다음 필터로 이동
         if (isWhitelistedPath(requestURI) || HTTP_METHOD_OPTIONS.equalsIgnoreCase(request.getMethod())) {
-            logger.warn("1111===JWT Token is missing");
             chain.doFilter(request, response);
             return;     // 종료
         }

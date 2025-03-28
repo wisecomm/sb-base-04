@@ -14,8 +14,8 @@ public class UserService {
     @Autowired
     private UserMapper userMapper;
 
-    public Optional<UserMap> getUserById(String userId) {
-        return userMapper.login(userId);
+    public Optional<UserMap> selectUser(String userId) {
+        return userMapper.selectUser(userId);
     }
 
 }

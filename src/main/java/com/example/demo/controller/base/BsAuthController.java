@@ -29,8 +29,8 @@ public class BsAuthController {
 	@Operation(summary = "관리자 로그인")
     @PostMapping("/adminlogin")
 	public ResponseEntity<GResponse> adminlogin(HttpServletRequest request
-                                            	, HttpServletResponse response
-												, @RequestParam String userId, @RequestParam String userPw) throws GException {
+		, HttpServletResponse response
+		, @RequestParam(value = "userId") String userId, @RequestParam(value = "userPw") String userPw) throws GException {
 		log.info("adminlogin 메소드 콜");
 		
 		MapAdminLogin mapAdminLogin = loginService.adminLogin(null, userId, userPw);

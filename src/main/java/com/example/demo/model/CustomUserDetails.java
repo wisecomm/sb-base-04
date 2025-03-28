@@ -31,14 +31,15 @@ public class CustomUserDetails implements UserDetails {
     @Override
     public Collection<? extends GrantedAuthority> getAuthorities() {
         List<GrantedAuthority> authorityList = new ArrayList<>();
-        authorityList.add(getAuthority(user.getUserSt()));
+        authorityList.add(getAuthority("ROLE_ADMIN"));
+//        authorityList.add(getAuthority(user.getUserSt()));
 
         return authorityList;
     }
 
     @Override
     public String getPassword() {
-        return user.getUserPw();
+        return user.getPassword();
     }
 
     @Override
