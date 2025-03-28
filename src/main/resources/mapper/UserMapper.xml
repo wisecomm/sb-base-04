@@ -17,5 +17,53 @@
         WHERE 1=1
     </select>
 
+    <select id="selectUserRole" resultType="userRoleMap">
+        SELECT u.USER_ID, u.USER_NAME, r.ROLE_NAME
+        FROM TB_USER u
+        JOIN TB_USER_ROLE ur ON u.USER_ID = ur.USER_ID
+        JOIN TB_ROLE r ON ur.ROLE_ID = r.ROLE_ID
+        WHERE u.USER_ID = #{userId};
+    </select>
+
+    <select id="selectMenuList" resultType="userRoleMap">
+        SELECT DISTINCT m.*
+        FROM TB_MENU m
+        JOIN TB_ROLE_MENU rm ON m.MENU_ID = rm.MENU_ID
+        JOIN TB_ROLE r ON rm.ROLE_ID = r.ROLE_ID
+        JOIN TB_USER_ROLE ur ON r.ROLE_ID = ur.ROLE_ID
+        WHERE ur.USER_ID = #{userId}
+        AND m.ENABLED = TRUE
+        AND rm.READ_PERM = TRUE
+        ORDER BY m.MENU_ORDER;
+    </select>
+
+    <select id="selectMenuListAll" resultType="userRoleMap">
+        WITH RECURSIVE MENU_HIERARCHY AS (
+            -- 루트 메뉴 선택
+            SELECT m.*, 0 AS LEVEL
+            FROM TB_MENU m
+            WHERE m.PARENT_ID IS NULL
+            
+            UNION ALL
+            
+            -- 하위 메뉴 추가
+            SELECT m.*, h.LEVEL + 1
+            FROM TB_MENU m
+            JOIN MENU_HIERARCHY h ON m.PARENT_ID = h.MENU_ID
+        )
+        SELECT mh.*, CONCAT(REPEAT('    ', mh.LEVEL), mh.MENU_NAME) AS DISPLAY_NAME
+        FROM MENU_HIERARCHY mh
+        ORDER BY mh.LEVEL, mh.MENU_ORDER;
+    </select>
+
+    <select id="selectMenuListRole" resultType="userRoleMap">
+        SELECT r.ROLE_NAME, m.MENU_NAME, m.MENU_URL, 
+            rm.CREATE_PERM, rm.READ_PERM, rm.UPDATE_PERM, rm.DELETE_PERM
+        FROM TB_ROLE r
+        JOIN TB_ROLE_MENU rm ON r.ROLE_ID = rm.ROLE_ID
+        JOIN TB_MENU m ON rm.MENU_ID = m.MENU_ID
+        WHERE r.ROLE_ID = #{roleId}
+        ORDER BY m.MENU_ORDER;
+    </select>
 
 </mapper>

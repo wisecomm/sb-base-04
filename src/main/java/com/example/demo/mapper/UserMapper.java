@@ -19,7 +19,8 @@ import java.util.Optional;
 public interface UserMapper {
 
     Optional<UserMap> selectUser(String userId);
-
     List<UserMap> selectUserList(UserMap userDto);
+
+    Optional<UserMap> selectUserRole(String userId);
 
 }
