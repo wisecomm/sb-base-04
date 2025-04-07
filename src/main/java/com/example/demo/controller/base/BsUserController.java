@@ -1,5 +1,8 @@
 package com.example.demo.controller.base;
 
+import java.util.List;
+import java.util.Optional;
+
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -13,10 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.common.exception.GException;
 import com.example.demo.common.model.GResponse;
+import com.example.demo.model.map.BsUserMap;
 import com.example.demo.model.map.MapBsAdminLogin;
 import com.example.demo.model.param.BsUserParam;
 import com.example.demo.service.base.BsLoginService;
 import com.example.demo.service.base.BsUserService;
+import com.github.pagehelper.PageHelper;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -39,31 +44,60 @@ public class BsUserController {
     public ResponseEntity<GResponse> insertUser(HttpServletResponse response
                                             , @Valid @RequestBody BsUserParam bsUserParam) throws GException {
 
-        bsUserService.insertUser(bsUserParam);
-
-        return ResponseEntity.ok().body(new GResponse("0000", "생성"));
+        int nReturn = bsUserService.insertUser(bsUserParam);
+        if(nReturn == 1) {
+            return ResponseEntity.ok().body(new GResponse("0000", ""));
+        } else {
+            return ResponseEntity.ok().body(new GResponse("E100", "생성 실패"));
+        }                                                
     }
 
     @Operation(summary = "사용자 정보 조회")
     @GetMapping("/user/{userId}")
-    public ResponseEntity<GResponse> retrieveUsers(HttpServletResponse response
+    public ResponseEntity<GResponse> selectUser(HttpServletResponse response
                                             , @PathVariable String userId) throws GException {
-        return ResponseEntity.ok().body(new GResponse("0000", "조회"));
+        Optional<BsUserMap> bsUserMap = bsUserService.selectUser(userId);
+
+        return ResponseEntity.ok().body(new GResponse("0000", bsUserMap));
     }
 
     @Operation(summary = "사용자 정보 수정")
-    @PutMapping("/user/{userId}")
+    @PutMapping("/user")
     public ResponseEntity<GResponse> update(HttpServletResponse response
-                                            , @PathVariable String userId
-                                            , @Valid @RequestBody BsUserParam pUser) throws GException {
-        return ResponseEntity.ok().body(new GResponse("0000", "수정"));
+                                            , @Valid @RequestBody BsUserParam bsUserParam) throws GException {
+        int nReturn = bsUserService.updateUser(bsUserParam);
+        if(nReturn == 1) {
+            return ResponseEntity.ok().body(new GResponse("0000", ""));
+        } else {
+            return ResponseEntity.ok().body(new GResponse("E100", "수정 실패"));
+        }                                                
     }
 
     @Operation(summary = "사용자 정보 삭제")
     @DeleteMapping("/user/{userId}")
     public ResponseEntity<GResponse> delete(HttpServletResponse response
                                             , @PathVariable String userId) throws GException {
-        return ResponseEntity.ok().body(new GResponse("0000", "삭제"));
+        int nReturn = bsUserService.deleteUser(userId);
+        if(nReturn == 1) {
+            return ResponseEntity.ok().body(new GResponse("0000", ""));
+        } else {
+            return ResponseEntity.ok().body(new GResponse("E100", "삭제 실패"));
+        }                                                
     }
+
+    @Operation(summary = "사용자 정보 조회")
+    @GetMapping("/users")
+    public ResponseEntity<GResponse> retrieveUsers(HttpServletResponse response
+        , @RequestParam(value = "pageNum", defaultValue="1") int page_num
+        , @RequestParam(value = "pageSize", defaultValue="10") int page_size
+        , @RequestParam(value = "param_key", defaultValue="") String param_key
+        , @RequestParam(value = "param_value", defaultValue="") String param_value) throws GException {
+
+        PageHelper.startPage(page_num, page_size);
+        List<BsUserMap> listData = bsUserService.selectUserList(param_key, param_value);
+
+        return ResponseEntity.ok().body(new GResponse("0000", listData));
+    }
+
 
 }

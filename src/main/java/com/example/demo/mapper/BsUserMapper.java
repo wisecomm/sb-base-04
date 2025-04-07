@@ -6,6 +6,7 @@ import com.example.demo.model.param.BsUserParam;
 
 import org.springframework.stereotype.Repository;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -21,7 +22,10 @@ public interface BsUserMapper {
 
     int insertUser(BsUserParam bsUserParam);
     Optional<BsUserMap> selectUser(String userId);
-    List<BsUserMap> selectUserList(BsUserParam bsUserParam);
+    int updateUser(BsUserParam bsUserParam);
+    int deleteUser(String userId);
+
+    List<BsUserMap> selectUserList(HashMap<String, Object> mapParam);
 
     Optional<BsUserMap> selectUserRole(String userId);
 

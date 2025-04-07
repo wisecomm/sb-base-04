@@ -10,6 +10,7 @@ import lombok.extern.slf4j.Slf4j;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
+import java.util.HashMap;
 import java.util.List;
 import java.util.Optional;
 
@@ -28,8 +29,21 @@ public class BsUserService {
     public Optional<BsUserMap> selectUser(String userId) {
         return bsUserMapper.selectUser(userId);
     }
-    public List<BsUserMap> selectUserList(BsUserParam bsUserParam) {
-        return bsUserMapper.selectUserList(bsUserParam);
+
+    public int updateUser(BsUserParam bsUserParam) throws GException {
+        return bsUserMapper.updateUser(bsUserParam);
+    }
+
+    public int deleteUser(String userId) throws GException {
+        return bsUserMapper.deleteUser(userId);
+    }
+
+    public List<BsUserMap> selectUserList(String param_key, String param_value) {
+        HashMap<String, Object> mapParam = new HashMap<>();
+        mapParam.put("param_key", param_key); 
+        mapParam.put("param_value", param_value);  
+
+        return bsUserMapper.selectUserList(mapParam);
     }
 
 }
