@@ -7,7 +7,7 @@ import java.util.Date;
 
 @Data
 @JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
-public class UserMap {
+public class BsUserMap {
 
     private String userId;
     private String userName;

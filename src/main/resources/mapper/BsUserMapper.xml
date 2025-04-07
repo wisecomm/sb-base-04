@@ -1,17 +1,21 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
 
-<mapper namespace="com.example.demo.mapper.UserMapper">
+<mapper namespace="com.example.demo.mapper.BsUserMapper">
 
     <!--로그인-->
-    <select id="selectUser" resultType="userMap">
-        SELECT t1.*
-        FROM tb_user t1
-        WHERE user_id = #{userId}
+    <select id="selectUser" resultType="BsUserMap">
+        SELECT u.USER_ID, u.USER_NAME, u.EMAIL, u.PHONE, 
+            u.ENABLED, 
+            u.LAST_LOGIN_AT, 
+            u.CREATED_AT, 
+            u.UPDATED_AT 
+        FROM BS_USER u
+        WHERE u.USER_ID = #{userId}
     </select>
 
     <!--사용자 리스트 조회 -->
-    <select id="selectUserList" resultType="userMap">
+    <select id="selectUserList" resultType="BsUserMap">
         SELECT t1.*
         FROM tb_user t1
         WHERE 1=1

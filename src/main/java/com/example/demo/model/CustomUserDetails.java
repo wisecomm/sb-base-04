@@ -7,7 +7,7 @@ import java.util.Map;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.demo.model.map.UserMap;
+import com.example.demo.model.map.BsUserMap;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 
@@ -16,11 +16,11 @@ import lombok.Getter;
 
 @Getter
 public class CustomUserDetails implements UserDetails {
-    private UserMap user;
+    private BsUserMap user;
     private Map<String, Object> attribute;
 
     /* 일반 로그인 생성자 */
-    public CustomUserDetails(UserMap user) {
+    public CustomUserDetails(BsUserMap user) {
         this.user = user;
     }
 

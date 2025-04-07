@@ -10,8 +10,8 @@ import org.springframework.util.StringUtils;
 
 import com.example.demo.common.model.GResponse;
 import com.example.demo.jwt.GJwtTokenHelper;
-import com.example.demo.model.map.MapAdminLogin;
-import com.example.demo.model.map.UserMap;
+import com.example.demo.model.map.MapBsAdminLogin;
+import com.example.demo.model.map.BsUserMap;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;
@@ -20,17 +20,17 @@ import lombok.extern.slf4j.Slf4j;
 @Slf4j
 @Service
 @RequiredArgsConstructor
-public class LoginService {
+public class BsLoginService {
 
     //..
     private final GJwtTokenHelper jwtTokenHelper;
-    private final UserService userService;
+    private final BsUserService bsUserService;
 
-    public MapAdminLogin adminLogin(HttpServletRequest request, String userId, String userPwd) {
-        MapAdminLogin mapAdminLogin = new MapAdminLogin();
+    public MapBsAdminLogin adminLogin(HttpServletRequest request, String userId, String userPwd) {
+        MapBsAdminLogin mapAdminLogin = new MapBsAdminLogin();
 
-		Optional<UserMap> userOptional = userService.selectUser(userId);
-        mapAdminLogin.setUserMap(userOptional.get());
+		Optional<BsUserMap> userOptional = bsUserService.selectUser(userId);
+        mapAdminLogin.setBsUserMap(userOptional.get());
 
         String jwt = jwtTokenHelper.generateJwt(userOptional.get().getUserId(), "ADMIN", "1234");
         mapAdminLogin.setAccessToken(jwt);

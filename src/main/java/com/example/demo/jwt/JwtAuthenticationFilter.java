@@ -24,7 +24,8 @@ public class JwtAuthenticationFilter extends OncePerRequestFilter {
         "/swagger-ui/**",
         "/v3/api-docs/**",
         "/api/v1/greeting/**",
-        "/api/v1/base/auth/adminlogin"
+        "/api/v1/base/auth/adminlogin",
+        "/api/v1/base/auth/**"
     );
 
     private final GJwtTokenHelper jwtTokenHelper;

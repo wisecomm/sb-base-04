@@ -8,8 +8,8 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.common.exception.GException;
 import com.example.demo.common.model.GResponse;
-import com.example.demo.model.map.MapAdminLogin;
-import com.example.demo.service.base.LoginService;
+import com.example.demo.model.map.MapBsAdminLogin;
+import com.example.demo.service.base.BsLoginService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -24,7 +24,7 @@ import lombok.extern.slf4j.Slf4j;
 public class BsAuthController {
 
     //..
-    private final LoginService loginService;
+    private final BsLoginService bsLoginService;
 
 	@Operation(summary = "관리자 로그인")
     @PostMapping("/adminlogin")
@@ -33,7 +33,7 @@ public class BsAuthController {
 		, @RequestParam(value = "userId") String userId, @RequestParam(value = "userPw") String userPw) throws GException {
 		log.info("adminlogin 메소드 콜");
 		
-		MapAdminLogin mapAdminLogin = loginService.adminLogin(null, userId, userPw);
+		MapBsAdminLogin mapAdminLogin = bsLoginService.adminLogin(null, userId, userPw);
 
         return ResponseEntity.ok().body(new GResponse("0000", "0000 리턴 메시지", mapAdminLogin));
 	}
@@ -41,7 +41,7 @@ public class BsAuthController {
     @Operation(summary = "로그인 정보 테스트( token 으로 로그인 정보 가져오기 )")
     @PostMapping("/logininfo")
 	public ResponseEntity<GResponse> logininfo() throws GException {
-		String strTemp = loginService.getTest();
+		String strTemp = bsLoginService.getTest();
 
 		return ResponseEntity.ok().body(new GResponse("0000", "", strTemp));
 	}
