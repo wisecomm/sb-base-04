@@ -16,6 +16,7 @@ import com.example.demo.common.model.GResponse;
 import com.example.demo.model.map.MapBsAdminLogin;
 import com.example.demo.model.param.BsUserParam;
 import com.example.demo.service.base.BsLoginService;
+import com.example.demo.service.base.BsUserService;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -31,12 +32,14 @@ import lombok.extern.slf4j.Slf4j;
 public class BsUserController {
 
     //..
-    private final BsLoginService bsLoginService;
+    private final BsUserService bsUserService;
 
     @Operation(summary = "사용자 정보 생성")
     @PostMapping("/user")
-    public ResponseEntity<GResponse> create(HttpServletResponse response
-                                            , @Valid @RequestBody BsUserParam pBsUser) throws GException {
+    public ResponseEntity<GResponse> insertUser(HttpServletResponse response
+                                            , @Valid @RequestBody BsUserParam bsUserParam) throws GException {
+
+        bsUserService.insertUser(bsUserParam);
 
         return ResponseEntity.ok().body(new GResponse("0000", "생성"));
     }

@@ -3,7 +3,7 @@
 
 <mapper namespace="com.example.demo.mapper.BsUserMapper">
 
-    <!--로그인-->
+    <!-- Select user by ID - already exists -->
     <select id="selectUser" resultType="BsUserMap">
         SELECT u.USER_ID, u.USER_NAME, u.EMAIL, u.PHONE, 
             u.ENABLED, 
@@ -14,12 +14,88 @@
         WHERE u.USER_ID = #{userId}
     </select>
 
-    <!--사용자 리스트 조회 -->
+    <!-- Select all users with pagination and filtering -->
     <select id="selectUserList" resultType="BsUserMap">
-        SELECT t1.*
-        FROM tb_user t1
+        SELECT USER_ID, USER_NAME, EMAIL, PHONE, 
+            ENABLED, LAST_LOGIN_AT, CREATED_AT, UPDATED_AT 
+        FROM BS_USER
         WHERE 1=1
+        <if test="userName != null and userName != ''">
+            AND USER_NAME LIKE CONCAT('%', #{userName}, '%')
+        </if>
+        <if test="email != null and email != ''">
+            AND EMAIL LIKE CONCAT('%', #{email}, '%')
+        </if>
+        <if test="enabled != null">
+            AND ENABLED = #{enabled}
+        </if>
+        ORDER BY CREATED_AT DESC
+        <if test="limit != null and offset != null">
+            LIMIT #{limit} OFFSET #{offset}
+        </if>
     </select>
+
+    <!-- Count total users (for pagination) -->
+    <select id="countUsers" resultType="int">
+        SELECT COUNT(*)
+        FROM BS_USER
+        WHERE 1=1
+        <if test="userName != null and userName != ''">
+            AND USER_NAME LIKE CONCAT('%', #{userName}, '%')
+        </if>
+        <if test="email != null and email != ''">
+            AND EMAIL LIKE CONCAT('%', #{email}, '%')
+        </if>
+        <if test="enabled != null">
+            AND ENABLED = #{enabled}
+        </if>
+    </select>
+
+    <!-- Insert a new user -->
+    <insert id="insertUser" parameterType="com.example.demo.model.param.BsUserParam">
+        INSERT INTO BS_USER (
+            USER_ID, 
+            USER_NAME, 
+            PASSWORD, 
+            EMAIL, 
+            PHONE, 
+            ENABLED
+        ) VALUES (
+            #{userId}, 
+            #{userName}, 
+            #{password}, 
+            #{email}, 
+            #{phone}, 
+            #{enabled}
+        )
+    </insert>
+
+    <!-- Update an existing user -->
+    <update id="updateUser" parameterType="BsUserMap">
+        UPDATE BS_USER
+        SET 
+            USER_NAME = #{userName},
+            <if test="password != null and password != ''">
+            PASSWORD = #{password},
+            </if>
+            EMAIL = #{email},
+            PHONE = #{phone},
+            ENABLED = #{enabled}
+        WHERE USER_ID = #{userId}
+    </update>
+
+    <!-- Update last login time -->
+    <update id="updateLastLogin">
+        UPDATE BS_USER
+        SET LAST_LOGIN_AT = NOW()
+        WHERE USER_ID = #{userId}
+    </update>
+
+    <!-- Delete a user -->
+    <delete id="deleteUser">
+        DELETE FROM BS_USER
+        WHERE USER_ID = #{userId}
+    </delete>
 
     <select id="selectUserRole" resultType="userRoleMap">
         SELECT u.USER_ID, u.USER_NAME, r.ROLE_NAME

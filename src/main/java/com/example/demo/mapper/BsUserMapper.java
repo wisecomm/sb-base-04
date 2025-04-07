@@ -2,6 +2,7 @@ package com.example.demo.mapper;
 
 
 import com.example.demo.model.map.BsUserMap;
+import com.example.demo.model.param.BsUserParam;
 
 import org.springframework.stereotype.Repository;
 
@@ -18,8 +19,9 @@ import java.util.Optional;
 @Repository
 public interface BsUserMapper {
 
+    int insertUser(BsUserParam bsUserParam);
     Optional<BsUserMap> selectUser(String userId);
-    List<BsUserMap> selectUserList(BsUserMap userDto);
+    List<BsUserMap> selectUserList(BsUserParam bsUserParam);
 
     Optional<BsUserMap> selectUserRole(String userId);
 
