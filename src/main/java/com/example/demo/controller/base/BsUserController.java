@@ -22,6 +22,7 @@ import com.example.demo.model.param.BsUserParam;
 import com.example.demo.service.base.BsLoginService;
 import com.example.demo.service.base.BsUserService;
 import com.github.pagehelper.PageHelper;
+import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
 import jakarta.servlet.http.HttpServletRequest;
@@ -96,7 +97,7 @@ public class BsUserController {
         PageHelper.startPage(page_num, page_size);
         List<BsUserMap> listData = bsUserService.selectUserList(param_key, param_value);
 
-        return ResponseEntity.ok().body(new GResponse("0000", listData));
+        return ResponseEntity.ok().body(new GResponse("0000", PageInfo.of(listData)));
     }
 
 
