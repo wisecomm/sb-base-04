@@ -7,7 +7,8 @@ import java.util.Map;
 
 import org.springframework.security.core.userdetails.UserDetails;
 
-import com.example.demo.model.map.BsUserMap;
+import com.example.demo.model.map.base.BsUserMap;
+
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.authority.SimpleGrantedAuthority;
 

@@ -1,5 +1,6 @@
 package com.example.demo.model.map;
 
+import com.example.demo.model.map.base.BsUserMap;
 import com.fasterxml.jackson.databind.PropertyNamingStrategies;
 import com.fasterxml.jackson.databind.annotation.JsonNaming;
 

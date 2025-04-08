@@ -15,9 +15,9 @@ import org.springframework.web.bind.annotation.RestController;
 
 import com.example.demo.common.exception.GException;
 import com.example.demo.common.model.GResponse;
-import com.example.demo.model.map.base.BsUserMap;
-import com.example.demo.model.param.base.BsUserParam;
-import com.example.demo.service.base.BsUserService;
+import com.example.demo.model.map.base.BsMenuMap;
+import com.example.demo.model.param.base.BsMenuParam;
+import com.example.demo.service.base.BsMenuService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
@@ -31,17 +31,16 @@ import lombok.extern.slf4j.Slf4j;
 @RequestMapping("/api/v1/base/auth")
 @RestController
 @RequiredArgsConstructor
-public class BsUserController {
+public class BsMenuController {
 
-    //..
-    private final BsUserService bsUserService;
+    private final BsMenuService bsMenuService;
 
-    @Operation(summary = "사용자 정보 생성")
-    @PostMapping("/user")
-    public ResponseEntity<GResponse> insertUser(HttpServletResponse response
-                                            , @Valid @RequestBody BsUserParam bsUserParam) throws GException {
+    @Operation(summary = "메뉴 정보 생성")
+    @PostMapping("/menu")
+    public ResponseEntity<GResponse> insertMenu(HttpServletResponse response
+                                            , @Valid @RequestBody BsMenuParam bsMenuParam) throws GException {
 
-        int nReturn = bsUserService.insertUser(bsUserParam);
+        int nReturn = bsMenuService.insertMenu(bsMenuParam);
         if(nReturn == 1) {
             return ResponseEntity.ok().body(new GResponse("0000", ""));
         } else {
@@ -49,20 +48,20 @@ public class BsUserController {
         }
     }
 
-    @Operation(summary = "사용자 정보 조회")
-    @GetMapping("/user/{userId}")
-    public ResponseEntity<GResponse> selectUser(HttpServletResponse response
-                                            , @PathVariable String userId) throws GException {
-        BsUserMap bsUserMap = bsUserService.selectUser(userId);
+    @Operation(summary = "메뉴 정보 조회")
+    @GetMapping("/menu/{menuId}")
+    public ResponseEntity<GResponse> selectMenu(HttpServletResponse response
+                                            , @PathVariable String menuId) throws GException {
+        BsMenuMap bsMenuMap = bsMenuService.selectMenu(menuId);
 
-        return ResponseEntity.ok().body(new GResponse("0000", bsUserMap));
+        return ResponseEntity.ok().body(new GResponse("0000", bsMenuMap));
     }
 
-    @Operation(summary = "사용자 정보 수정")
-    @PutMapping("/user")
-    public ResponseEntity<GResponse> update(HttpServletResponse response
-                                            , @Valid @RequestBody BsUserParam bsUserParam) throws GException {
-        int nReturn = bsUserService.updateUser(bsUserParam);
+    @Operation(summary = "메뉴 정보 수정")
+    @PutMapping("/menu")
+    public ResponseEntity<GResponse> updateMenu(HttpServletResponse response
+                                            , @Valid @RequestBody BsMenuParam bsMenuParam) throws GException {
+        int nReturn = bsMenuService.updateMenu(bsMenuParam);
         if(nReturn == 1) {
             return ResponseEntity.ok().body(new GResponse("0000", ""));
         } else {
@@ -70,11 +69,11 @@ public class BsUserController {
         }
     }
 
-    @Operation(summary = "사용자 정보 삭제")
-    @DeleteMapping("/user/{userId}")
-    public ResponseEntity<GResponse> delete(HttpServletResponse response
-                                            , @PathVariable String userId) throws GException {
-        int nReturn = bsUserService.deleteUser(userId);
+    @Operation(summary = "메뉴 정보 삭제")
+    @DeleteMapping("/menu/{menuId}")
+    public ResponseEntity<GResponse> deleteMenu(HttpServletResponse response
+                                            , @PathVariable String menuId) throws GException {
+        int nReturn = bsMenuService.deleteMenu(menuId);
         if(nReturn == 1) {
             return ResponseEntity.ok().body(new GResponse("0000", ""));
         } else {
@@ -82,19 +81,17 @@ public class BsUserController {
         }
     }
 
-    @Operation(summary = "사용자 정보 조회")
-    @GetMapping("/users")
-    public ResponseEntity<GResponse> retrieveUsers(HttpServletResponse response
+    @Operation(summary = "메뉴 정보 목록 조회")
+    @GetMapping("/menus")
+    public ResponseEntity<GResponse> retrieveMenus(HttpServletResponse response
         , @RequestParam(value = "pageNum", defaultValue="1") int page_num
         , @RequestParam(value = "pageSize", defaultValue="10") int page_size
         , @RequestParam(value = "param_key", defaultValue="") String param_key
         , @RequestParam(value = "param_value", defaultValue="") String param_value) throws GException {
 
         PageHelper.startPage(page_num, page_size);
-        List<BsUserMap> listData = bsUserService.selectUserList(param_key, param_value);
+        List<BsMenuMap> listData = bsMenuService.selectMenuList(param_key, param_value);
 
         return ResponseEntity.ok().body(new GResponse("0000", PageInfo.of(listData)));
     }
-
-
 }

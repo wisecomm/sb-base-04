@@ -11,7 +11,7 @@ import org.springframework.util.StringUtils;
 import com.example.demo.common.model.GResponse;
 import com.example.demo.jwt.GJwtTokenHelper;
 import com.example.demo.model.map.MapBsAdminLogin;
-import com.example.demo.model.map.BsUserMap;
+import com.example.demo.model.map.base.BsUserMap;
 
 import jakarta.servlet.http.HttpServletRequest;
 import lombok.RequiredArgsConstructor;

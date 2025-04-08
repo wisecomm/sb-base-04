@@ -5,6 +5,8 @@ import com.zaxxer.hikari.HikariDataSource;
 import org.apache.ibatis.session.SqlSessionFactory;
 import org.mybatis.spring.SqlSessionFactoryBean;
 import org.mybatis.spring.SqlSessionTemplate;
+import org.mybatis.spring.annotation.MapperScan;
+import org.springframework.beans.factory.annotation.Value;
 import org.springframework.boot.context.properties.ConfigurationProperties;
 import org.springframework.context.ApplicationContext;
 import org.springframework.context.annotation.Bean;
@@ -23,8 +25,21 @@ import javax.sql.DataSource;
  */
 @Configuration
 @PropertySource("classpath:/application.properties")
+@MapperScan(basePackages = "${mybatis.mapper-package}")
 public class DataSourceConfig {
     final ApplicationContext applicationContext;
+
+    @Value("${mybatis.mapper-locations}")
+    private String mapperLocations;
+
+    @Value("${mybatis.type-aliases-package}")
+    private String typeAliasesPackage;
+
+    @Value("${mybatis.config-location}")
+    private String configLocation;
+    
+    @Value("${mybatis.mapper-package}")
+    private String mapperPackage;
 
     public DataSourceConfig(ApplicationContext ac) {
         this.applicationContext = ac;
@@ -45,9 +60,9 @@ public class DataSourceConfig {
     public SqlSessionFactory sqlSessionFactory(DataSource dataSource) throws Exception {
         SqlSessionFactoryBean session = new SqlSessionFactoryBean();
         session.setDataSource(dataSource);
-        session.setMapperLocations(applicationContext.getResources("classpath:mapper/*.xml"));
-        session.setTypeAliasesPackage("com.example.demo.model.map");
-        session.setConfigLocation(new PathMatchingResourcePatternResolver().getResource("classpath:config/common-mybatis-config.xml"));
+        session.setMapperLocations(applicationContext.getResources(mapperLocations));
+        session.setTypeAliasesPackage(typeAliasesPackage);
+        session.setConfigLocation(new PathMatchingResourcePatternResolver().getResource(configLocation));
         return session.getObject();
     }
 

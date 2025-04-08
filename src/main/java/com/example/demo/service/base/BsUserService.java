@@ -1,16 +1,15 @@
 package com.example.demo.service.base;
 
 import com.example.demo.common.exception.GException;
-import com.example.demo.mapper.BsUserMapper;
-import com.example.demo.model.map.BsUserMap;
-import com.example.demo.model.param.BsUserParam;
+import com.example.demo.mapper.base.BsUserMapper;
+import com.example.demo.model.map.base.BsUserMap;
+import com.example.demo.model.param.base.BsUserParam;
 
 import lombok.extern.slf4j.Slf4j;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
-import java.util.HashMap;
 import java.util.List;
 
 @Slf4j
@@ -38,11 +37,7 @@ public class BsUserService {
     }
 
     public List<BsUserMap> selectUserList(String param_key, String param_value) {
-        HashMap<String, Object> mapParam = new HashMap<>();
-        mapParam.put("param_key", param_key); 
-        mapParam.put("param_value", param_value);  
-
-        return bsUserMapper.selectUserList(mapParam);
+        return bsUserMapper.selectUserList(param_key, param_value);
     }
 
 }

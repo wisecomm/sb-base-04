@@ -1,0 +1,87 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd">
+
+<mapper namespace="com.example.demo.mapper.base.BsMenuMapper">
+
+    <insert id="insertMenu" parameterType="BsMenuParam">
+        INSERT INTO bs_menu (
+            menu_id, 
+            menu_name, 
+            menu_path, 
+            parent_menu_id, 
+            menu_order, 
+            menu_icon, 
+            use_yn, 
+            reg_id, 
+            reg_dt)
+        VALUES (
+            #{menuId}, 
+            #{menuName}, 
+            #{menuPath}, 
+            #{parentMenuId}, 
+            #{menuOrder}, 
+            #{menuIcon}, 
+            #{useYn}, 
+            #{regId}, 
+            NOW())
+    </insert>
+
+    <select id="selectMenu" parameterType="string" resultType="BsMenuMap">
+        SELECT 
+            menu_id, menu_name, menu_url, parent_id, menu_order,
+            menu_icon, menu_type, enabled,
+            CREATED_AT, UPDATED_AT 
+        FROM bs_menu
+        WHERE menu_id = #{menuId}
+    </select>
+
+    <update id="updateMenu" parameterType="BsMenuParam">
+        UPDATE bs_menu
+        SET
+            menu_name = #{menuName},
+            menu_path = #{menuPath},
+            parent_menu_id = #{parentMenuId},
+            menu_order = #{menuOrder},
+            menu_icon = #{menuIcon},
+            use_yn = #{useYn},
+            upd_id = #{updId},
+            upd_dt = NOW()
+        WHERE menu_id = #{menuId}
+    </update>
+
+    <delete id="deleteMenu" parameterType="string">
+        DELETE FROM bs_menu
+        WHERE menu_id = #{menuId}
+    </delete>
+
+    <select id="selectMenuList" resultType="BsMenuMap">
+        SELECT 
+            menu_id AS menuId,
+            menu_name AS menuName,
+            menu_path AS menuPath,
+            parent_menu_id AS parentMenuId,
+            menu_order AS menuOrder,
+            menu_icon AS menuIcon,
+            use_yn AS useYn,
+            reg_id AS regId,
+            reg_dt AS regDt,
+            upd_id AS updId,
+            upd_dt AS updDt
+        FROM bs_menu
+        WHERE 1=1
+        <where>
+            <if test="param_key != null and param_key != '' and param_value != null and param_value != ''">
+                <choose>
+                    <when test="param_key == 'menuId'">
+                        AND menu_id LIKE CONCAT('%', #{param_value}, '%')
+                    </when>
+                    <when test="param_key == 'menuName'">
+                        AND menu_name LIKE CONCAT('%', #{param_value}, '%')
+                    </when>
+                </choose>
+            </if>
+        </where>
+        ORDER BY menu_order ASC
+    </select>
+
+</mapper>
