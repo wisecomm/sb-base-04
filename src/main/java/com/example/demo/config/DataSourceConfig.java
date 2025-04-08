@@ -38,9 +38,6 @@ public class DataSourceConfig {
     @Value("${mybatis.config-location}")
     private String configLocation;
     
-    @Value("${mybatis.mapper-package}")
-    private String mapperPackage;
-
     public DataSourceConfig(ApplicationContext ac) {
         this.applicationContext = ac;
     }

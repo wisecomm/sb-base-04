@@ -41,6 +41,7 @@ public class BsUserController {
     public ResponseEntity<GResponse> insertUser(HttpServletResponse response
                                             , @Valid @RequestBody BsUserParam bsUserParam) throws GException {
 
+        log.debug("bsUserParam={}", bsUserParam);
         int nReturn = bsUserService.insertUser(bsUserParam);
         if(nReturn == 1) {
             return ResponseEntity.ok().body(new GResponse("0000", ""));

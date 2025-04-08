@@ -39,7 +39,7 @@ public class BsMenuController {
     @PostMapping("/menu")
     public ResponseEntity<GResponse> insertMenu(HttpServletResponse response
                                             , @Valid @RequestBody BsMenuParam bsMenuParam) throws GException {
-
+        log.debug("bsMenuParam={}", bsMenuParam);
         int nReturn = bsMenuService.insertMenu(bsMenuParam);
         if(nReturn == 1) {
             return ResponseEntity.ok().body(new GResponse("0000", ""));

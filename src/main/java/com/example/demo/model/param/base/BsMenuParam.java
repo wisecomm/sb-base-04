@@ -7,16 +7,16 @@ import jakarta.validation.constraints.NotEmpty;
 import lombok.Data;
 
 @Data
+@JsonNaming(PropertyNamingStrategies.SnakeCaseStrategy.class)
 public class BsMenuParam {
     @NotEmpty(message = "메뉴 ID는 필수입니다")
-    private String menuId;
+    private Integer menuId;
     
     private String menuName;
-    private String menuPath;
-    private String parentMenuId;
+    private String menuUrl;
+    private Integer parentId;
     private Integer menuOrder;
     private String menuIcon;
-    private String useYn;
-    private String regId;
-    private String updId;
+    private String menuType;
+    private Integer enabled;
 }
