@@ -12,7 +12,6 @@ import org.springframework.stereotype.Service;
 
 import java.util.HashMap;
 import java.util.List;
-import java.util.Optional;
 
 @Slf4j
 @Service
@@ -26,7 +25,7 @@ public class BsUserService {
         return bsUserMapper.insertUser(bsUserParam);
     }
 
-    public Optional<BsUserMap> selectUser(String userId) {
+    public BsUserMap selectUser(String userId) {
         return bsUserMapper.selectUser(userId);
     }
 

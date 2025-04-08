@@ -29,12 +29,12 @@ public class BsLoginService {
     public MapBsAdminLogin adminLogin(HttpServletRequest request, String userId, String userPwd) {
         MapBsAdminLogin mapAdminLogin = new MapBsAdminLogin();
 
-		Optional<BsUserMap> userOptional = bsUserService.selectUser(userId);
-        mapAdminLogin.setBsUserMap(userOptional.get());
+		BsUserMap userOptional = bsUserService.selectUser(userId);
+        mapAdminLogin.setBsUserMap(userOptional);
 
-        String jwt = jwtTokenHelper.generateJwt(userOptional.get().getUserId(), "ADMIN", "1234");
+        String jwt = jwtTokenHelper.generateJwt(userOptional.getUserId(), "ADMIN", "1234");
         mapAdminLogin.setAccessToken(jwt);
-        jwt = jwtTokenHelper.generateRefreshToken(userOptional.get().getUserId(), "ADMIN", "1234");
+        jwt = jwtTokenHelper.generateRefreshToken(userOptional.getUserId(), "ADMIN", "1234");
         mapAdminLogin.setRefreshToken(jwt);
 
         return mapAdminLogin;

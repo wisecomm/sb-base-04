@@ -1,7 +1,6 @@
 package com.example.demo.controller.base;
 
 import java.util.List;
-import java.util.Optional;
 
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -17,15 +16,12 @@ import org.springframework.web.bind.annotation.RestController;
 import com.example.demo.common.exception.GException;
 import com.example.demo.common.model.GResponse;
 import com.example.demo.model.map.BsUserMap;
-import com.example.demo.model.map.MapBsAdminLogin;
 import com.example.demo.model.param.BsUserParam;
-import com.example.demo.service.base.BsLoginService;
 import com.example.demo.service.base.BsUserService;
 import com.github.pagehelper.PageHelper;
 import com.github.pagehelper.PageInfo;
 
 import io.swagger.v3.oas.annotations.Operation;
-import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpServletResponse;
 import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
@@ -57,7 +53,7 @@ public class BsUserController {
     @GetMapping("/user/{userId}")
     public ResponseEntity<GResponse> selectUser(HttpServletResponse response
                                             , @PathVariable String userId) throws GException {
-        Optional<BsUserMap> bsUserMap = bsUserService.selectUser(userId);
+        BsUserMap bsUserMap = bsUserService.selectUser(userId);
 
         return ResponseEntity.ok().body(new GResponse("0000", bsUserMap));
     }
